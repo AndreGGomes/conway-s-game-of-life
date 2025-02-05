@@ -11,7 +11,6 @@ int CELL_SIZE = 5;
 int GRID_THICKNESS = 1;
 
 int GAME_STATE = 0;
-int counter = 0;
 
 int **board;
 
@@ -72,6 +71,7 @@ void DrawGrid()
         SDL_Rect ColumnRect = (SDL_Rect) {i*CELL_SIZE, 0, GRID_THICKNESS, WINDOW_HEIGHT+GRID_THICKNESS};
         SDL_FillSurfaceRect(surface, &ColumnRect, COLOR_GREY);
     }
+    
     SDL_UpdateWindowSurface(window);
 }
 
@@ -187,7 +187,6 @@ void RandomizeBoard()
             board[i][j] = random;
         }
     }
-
 }
 
 void SetCell(Sint32 mouse_x, Sint32 mouse_y)
