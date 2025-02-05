@@ -1,13 +1,14 @@
 #define SDL_MAIN_USE_CALLBACKS
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
-int WINDOW_WIDHT = 900;
-int WINDOW_HEIGHT = 600;
-int CELL_SIZE = 10;
-int GRID_THICKNESS = 2;
+int WINDOW_WIDHT = 1280;
+int WINDOW_HEIGHT = 960;
+int CELL_SIZE = 5;
+int GRID_THICKNESS = 1;
 
 int GAME_STATE = 0;
 int counter = 0;
@@ -172,6 +173,26 @@ void DrawGlider()
     SDL_UpdateWindowSurface(window);
 
 }
+void RandomizeBoard()
+{
+    srand(time(NULL));
+
+    int cols = WINDOW_WIDHT/CELL_SIZE;
+    int rows = WINDOW_HEIGHT/CELL_SIZE;
+    for(int i=0; i<rows; i++)
+    {
+        for(int j=0; j<cols; j++)
+        {
+            int random = 0;
+            if(rand()%10<3)
+            {   
+                random = 1;
+            }
+            board[i][j] = random;
+        }
+    }
+
+}
 
 void SetCell(Sint32 mouse_x, Sint32 mouse_y)
 {
@@ -218,9 +239,13 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
         {
             CleanBoard();
         }
-        else if(event->key.key == SDLK_G) //ERASES EVERY ALIVE CELL
+        else if(event->key.key == SDLK_G) //GENERATES A GLIDER
         {
             DrawGlider();
+        }
+        else if(event->key.key == SDLK_R) // RANDOMIZES THE BOARD
+        {
+            RandomizeBoard();
         }
     }
     else if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN)
@@ -243,7 +268,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 
         AdvanceGameLogic();
 
-        SDL_Delay(100); 
+        SDL_Delay(50); 
     }
 
     DrawBoard();
