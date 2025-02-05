@@ -167,12 +167,8 @@ void DrawGlider()
     board[3][3] = 1;
     board[4][2] = 1;
     board[4][3] = 1;
-
-    DrawBoard();
-
-    SDL_UpdateWindowSurface(window);
-
 }
+
 void RandomizeBoard()
 {
     srand(time(NULL));
@@ -270,8 +266,6 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 
         SDL_Delay(50); 
     }
-
-    DrawBoard();
 
     return SDL_APP_CONTINUE;
 }
