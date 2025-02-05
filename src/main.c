@@ -6,8 +6,11 @@
 
 int WINDOW_WIDHT = 900;
 int WINDOW_HEIGHT = 600;
-int CELL_SIZE = 20;
-int GRID_THICKNESS = 4;
+int CELL_SIZE = 10;
+int GRID_THICKNESS = 2;
+
+int GAME_STATE = 0;
+int counter = 0;
 
 int **board;
 
@@ -19,21 +22,23 @@ Uint32 COLOR_GREEN = 0xff00ff00;
 SDL_Window* window;
 SDL_Surface* surface;
 
+int mod(int a, int b)
+{
+    int result = a%b;
+
+    if(a<0)
+    {
+        result+=b;
+    }
+    return result;
+}
+
 void SDL_AppQuit(void *appstate, SDL_AppResult result)
 {
     SDL_DestroyWindow(window);
     window = NULL;
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
     free(board);
-}
-
-SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
-{
-   if(event->type == SDL_EVENT_QUIT)
-   {
-        return SDL_APP_SUCCESS;
-   }
-   return SDL_APP_CONTINUE;
 }
 
 void InitializeBoard()
@@ -66,6 +71,7 @@ void DrawGrid()
         SDL_Rect ColumnRect = (SDL_Rect) {i*CELL_SIZE, 0, GRID_THICKNESS, WINDOW_HEIGHT+GRID_THICKNESS};
         SDL_FillSurfaceRect(surface, &ColumnRect, COLOR_GREY);
     }
+    SDL_UpdateWindowSurface(window);
 }
 
 void DrawCell(int x, int y, int cell_value)
@@ -88,17 +94,22 @@ void DrawBoard()
             DrawCell(j, i, board[i][j]); //i and j are switch, bcause j tells how much to the right the cell is, and i tells how much down.
         }
     }
+
+    SDL_UpdateWindowSurface(window);
 }
 
-int mod(int a, int b)
+void CleanBoard()
 {
-    int result = a%b;
+    int cols = WINDOW_WIDHT/CELL_SIZE;
+    int rows = WINDOW_HEIGHT/CELL_SIZE;
 
-    if(a<0)
+    for(int i=0; i<rows; i++)
     {
-        result+=b;
+        for(int j=0; j<cols; j++)
+        {
+            board[i][j]=0; 
+        }
     }
-    return result;
 }
 
 void AdvanceGameLogic()
@@ -155,19 +166,87 @@ void DrawGlider()
     board[3][3] = 1;
     board[4][2] = 1;
     board[4][3] = 1;
+
+    DrawBoard();
+
+    SDL_UpdateWindowSurface(window);
+
+}
+
+void SetCell(Sint32 mouse_x, Sint32 mouse_y)
+{
+    int cols = WINDOW_WIDHT/CELL_SIZE;
+    int rows = WINDOW_HEIGHT/CELL_SIZE;
+    int i, j;
+    for(i=0;i<rows;i++)
+    {
+        if(mouse_y<i*CELL_SIZE)
+        {
+            i--;
+            break;
+        }
+    }
+    for(j=0;j<cols;j++)
+    {
+        if(mouse_x<j*CELL_SIZE)
+        {
+            j--;
+            break;
+        }
+    }
+    board[i][j] = mod(board[i][j]+1,2);
+
+}
+
+SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
+{
+    int cols = WINDOW_WIDHT/CELL_SIZE;
+    int rows = WINDOW_HEIGHT/CELL_SIZE;
+    
+
+    if(event->type == SDL_EVENT_QUIT)
+    {
+        return SDL_APP_SUCCESS;
+    }
+    if(event->type == SDL_EVENT_KEY_DOWN)
+    {
+        if(event->key.key == SDLK_SPACE) //PAUSES THE GAME
+        {
+            GAME_STATE = mod(GAME_STATE+1,2);
+        }
+        else if(event->key.key == SDLK_X) //ERASES EVERY ALIVE CELL
+        {
+            CleanBoard();
+        }
+        else if(event->key.key == SDLK_G) //ERASES EVERY ALIVE CELL
+        {
+            DrawGlider();
+        }
+    }
+    else if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+    {
+        Sint32 mouse_x = event->button.x;
+        Sint32 mouse_y = event->button.y;
+        SetCell(mouse_x, mouse_y);
+    }
+
+   return SDL_APP_CONTINUE;
 }
 
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate)
 {
-
     DrawBoard();
 
-    AdvanceGameLogic();
+    if(GAME_STATE)
+    {
 
-    SDL_UpdateWindowSurface(window);
+        AdvanceGameLogic();
 
-    SDL_Delay(100);
+        SDL_Delay(100); 
+    }
+
+    DrawBoard();
 
     return SDL_APP_CONTINUE;
 }
