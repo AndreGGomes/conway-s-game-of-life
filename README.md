@@ -2,7 +2,7 @@ An implementation of Conway's Game of Life written in C, using SDL3, for learnin
 
 To compile, you must have the SDL3 lib installed, and run make in the terminal(compiles with gcc).
 
-Usefull keybinds while playing:
+Usefull while playing:
 
 Space: starts/pauses the game
 
