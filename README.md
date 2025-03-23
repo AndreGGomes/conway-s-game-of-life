@@ -4,7 +4,7 @@ An implementation of Conway's Game of Life written in C, using [SDL3](https://gi
 
 ## Getting Started
 
-These instructions will give you a copy of the project up and running on
+These instructions will give you an up and running copy of the project on
 your local machine.
 
 ### Prerequisites
