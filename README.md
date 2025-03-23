@@ -1,6 +1,6 @@
 An implementation of Conway's Game of Life written in C, using SDL3, for learning purposes.
 
-To compile, you must have the SDL3 lib installed, and run make in the terminal(compiles with gcc).
+Having SDL3 installed, run make to compile.
 
 Usefull while playing:
 
