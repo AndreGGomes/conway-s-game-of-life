@@ -5,28 +5,29 @@ An implementation of Conway's Game of Life written in C, using [SDL3](https://gi
 ## Getting Started
 
 These instructions will give you a copy of the project up and running on
-your local machine for development and testing purposes. See deployment
-for notes on deploying the project on a live system.
+your local machine.
 
 ### Prerequisites
 
-Necessary tools to build the game
+Necessary tools to build the game:
 - [Git](https://git-scm.com/downloads)
 - [Cmake](https://cmake.org/download/)
 
 ### Building
 
-Clone the repo with:
+Clone the repository:
 
     git clone https://github.com/AndreGGomes/conway-s-game-of-life.git
 
-Inside the repo's directory run:
+Enter the project directory and create a directory called "build":
 
-    mkdir build; cd build
+    cd conway-s-game-of-life; mkdir build; cd build
 
-With Cmake installed run:
+Run the following CMake commands inside the "build" directory (with CMake installed):
 
     cmake ..; cmake --build .
+
+Now you will have an executable calle 
 
 ## Playing the game
 
