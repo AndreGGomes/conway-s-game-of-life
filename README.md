@@ -28,16 +28,16 @@ Run the following CMake commands inside the "build" directory (with CMake instal
     cmake ..; cmake --build .
     
 
-Now you will have an executable file called "conway_game_of_life" in your build directory
+Now you will have an executable file called "conway_game_of_life" in your build directory.
 
 ## Playing the game
 
-Space: starts/pauses the game
+Space: starts/pauses the game.
 
-X: kills every alive cell
+X: kills every alive cell.
 
-Right_Click: changes the status of the cell
+Right_Click: changes the status of the cell.
 
-R: Randomizes the board
+R: Randomizes the board.
 
-G: Starts a glider in the board
+G: Starts a glider in the board.
