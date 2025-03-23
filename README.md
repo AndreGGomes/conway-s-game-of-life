@@ -26,8 +26,9 @@ Enter the project directory and create a directory called "build":
 Run the following CMake commands inside the "build" directory (with CMake installed):
 
     cmake ..; cmake --build .
+    
 
-Now you will have an executable calle 
+Now you will have an executable file called "conway_game_of_life" in your build directory
 
 ## Playing the game
 
